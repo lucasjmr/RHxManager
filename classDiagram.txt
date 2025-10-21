@@ -1,0 +1,43 @@
+classDiagram
+    class Employe {
+        -int id_employe
+        -String lastName
+        -String firstName
+        -String grade
+        -String jobName
+        -double salary
+        -String password
+    }
+
+    class Department {
+        -int id_department
+        -String name
+    }
+
+    class Project {
+        -int id_project
+        -String name
+        -String state
+    }
+
+    class Payslip {
+        -int id_payslip
+        -int month
+        -int year
+        -double bonus
+        -double deductions
+        -double net_a_payer
+    }
+
+    class Role {
+        -int id_role
+        -String name
+    }
+
+    Department "1" --o "0,*" Employe : contain
+
+    Employe "1" --* "0,*" Payslip : have
+
+    Employe "0,*" -- "0,*" Project : work on
+
+    Employe "0,*" -- "1,*" Role : to be
