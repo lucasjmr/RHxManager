@@ -6,6 +6,7 @@ classDiagram
         -String grade
         -String jobName
         -double salary
+        -String username
         -String password
     }
 
@@ -26,7 +27,7 @@ classDiagram
         -int year
         -double bonus
         -double deductions
-        -double net_a_payer
+        -double net_to_pay
     }
 
     class Role {
@@ -34,10 +35,9 @@ classDiagram
         -String name
     }
 
-    Department "1" --o "0,*" Employe : contain
-
-    Employe "1" --* "0,*" Payslip : have
-
-    Employe "0,*" -- "0,*" Project : work on
-
-    Employe "0,*" -- "1,*" Role : to be
+    Department "1" --o "0..*" Employe : contains
+    Employe "1" --* "0..*" Payslip : has
+    Employe "0..*" -- "0..*" Project : works on
+    Employe "1..*" -- "1..*" Role : has role
+    Department "1" --> "1" Employe : is managed by
+    Project "1" --> "1" Employe : is led by
