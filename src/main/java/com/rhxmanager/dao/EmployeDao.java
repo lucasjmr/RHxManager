@@ -1,7 +1,6 @@
 package com.rhxmanager.dao;
 
 import  com.rhxmanager.model.Employe;
-import com.rhxmanager.dao.GenericDAO;
 import com.rhxmanager.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -9,9 +8,9 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.Optional;
 
-public class EmployeDAO extends GenericDAO<Employe, Integer> {
+public class EmployeDao extends GenericDao<Employe, Integer> {
 
-    public EmployeDAO() {
+    public EmployeDao() {
         super(Employe.class);
     }
 

@@ -1,6 +1,6 @@
 package com.rhxmanager.servlets;
 
-import com.rhxmanager.util.sessionUtils;
+import com.rhxmanager.util.SessionUtil;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,10 +19,10 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        if (sessionUtils.ifLoggedInRedirects(request, response, "/dashboard")) {
+        if (SessionUtil.ifLoggedInRedirects(request, response, "/dashboard")) {
             return;
         } else {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect(request.getContextPath() + "/auth");
         }
     }
 }

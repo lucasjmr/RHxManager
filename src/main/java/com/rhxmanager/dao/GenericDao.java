@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.criteria.CriteriaQuery;
 import com.rhxmanager.util.JpaUtil;
+import jakarta.persistence.criteria.CriteriaQuery;
 
-public class GenericDAO<T, ID> {
+public class GenericDao<T, ID> {
 
     private final Class<T> entityClass;
 
-    public GenericDAO(Class<T> entityClass) {
+    public GenericDao(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -64,6 +64,17 @@ public class GenericDAO<T, ID> {
         } catch (Exception e) {
             if (transaction.isActive()) transaction.rollback();
             e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<T> findAll() {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            CriteriaQuery<T> criteria = em.getCriteriaBuilder().createQuery(entityClass);
+            criteria.select(criteria.from(entityClass));
+            return em.createQuery(criteria).getResultList();
         } finally {
             em.close();
         }

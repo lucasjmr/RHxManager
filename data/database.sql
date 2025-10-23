@@ -1,4 +1,4 @@
-create database rhxmanager;
+CREATE DATABASE rhxmanager;
 use rhxmanager;
 
 DROP TABLE IF EXISTS Employe_Role;
