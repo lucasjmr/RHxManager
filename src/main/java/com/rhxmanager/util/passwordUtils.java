@@ -1,55 +1,62 @@
 package com.rhxmanager.util;
-import java.security.MessageDigest;
+
 import java.security.NoSuchAlgorithmException;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 
 public class passwordUtils {
-    public static String hashPassword(String pwd)
-            throws NoSuchAlgorithmException
-    {
-        // We will use MD5
-        String hashedPassword = null;
+
+    private static final String ALGORITHM = "PBKDF2WithHmacSHA256";
+    private static final int ITERATIONS = 1000;
+    private static final int KEY_LENGTH = 256;
+    private static final int SALT_SIZE = 16;
+
+    public static String hashPassword(String password) {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[SALT_SIZE];
+        random.nextBytes(salt);
+
+        PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
 
         try {
-            // Create MessageDigest instance for MD5
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            SecretKeyFactory skf = SecretKeyFactory.getInstance(ALGORITHM);
+            byte[] hash = skf.generateSecret(spec).getEncoded();
 
-            // Add password bytes to digest
-            md.update(pwd.getBytes());
-
-            // Get the hash's bytes
-            byte[] bytes = md.digest();
-
-            // This bytes[] has bytes in decimal format. Convert it to hexadecimal format
-            StringBuilder sb = new StringBuilder();
-            for (byte aByte : bytes) {
-                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
-            }
-
-            // Get complete hashed password in hex format
-            hashedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
+            // combine salt and hash
+            return Base64.getEncoder().encodeToString(salt) + ":" + Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException("Cannot hash password", e);
         }
-
-        return hashedPassword;
     }
 
-    public static boolean verifyPasswords(String inputPassword, String hashedPassword)
-    {
-        boolean result = false;
-
-        try {
-            String hashedInputPassword = passwordUtils.hashPassword(inputPassword);
-            if (hashedInputPassword.equals(hashedPassword))
-            {
-                result = true;
-            }
-        } catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
+    public static boolean verifyPassword(String originalPassword, String storedPassword) {
+        String[] parts = storedPassword.split(":");
+        if (parts.length != 2) {
+            // stored pwd format is incorrect
+            return false;
         }
 
-        return result;
+        try {
+            byte[] salt = Base64.getDecoder().decode(parts[0]);
+            byte[] hash = Base64.getDecoder().decode(parts[1]);
+
+            PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
+            SecretKeyFactory skf = SecretKeyFactory.getInstance(ALGORITHM);
+
+            byte[] testHash = skf.generateSecret(spec).getEncoded();
+
+            int diff = hash.length ^ testHash.length;
+            for (int i = 0; i < hash.length && i < testHash.length; i++) {
+                diff |= hash[i] ^ testHash[i];
+            }
+            return diff == 0;
+
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

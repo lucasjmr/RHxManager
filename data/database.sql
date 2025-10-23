@@ -80,3 +80,6 @@ CREATE TABLE Employe_Role (
     FOREIGN KEY (employe_id) REFERENCES Employe(id_employe) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES Role(id_role) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+-- username : "aze" | pwd : "aze" --
+INSERT INTO Employe (lastName, firstName, grade, jobName, salary, username, password, department_id) VALUES ('lastName', 'firstName', 'N/A', 'Test Account', 1000.00, 'aze', 'sTLME1aUWZBbIxEMXgiexA==:PDn+ogaCEHASt85SRpvkOlSq6QM2dU49eP4dQaqcgww=', NULL);

@@ -12,12 +12,12 @@ classDiagram
 
     class Department {
         -int id_department
-        -String name
+        -String departmentName
     }
 
     class Project {
         -int id_project
-        -String name
+        -String projectName
         -String state
     }
 
@@ -27,12 +27,12 @@ classDiagram
         -int year
         -double bonus
         -double deductions
-        -double net_to_pay
+        -double net
     }
 
     class Role {
         -int id_role
-        -String name
+        -String roleName
     }
 
     Department "1" --o "0..*" Employe : contains
