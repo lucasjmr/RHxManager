@@ -1,6 +1,8 @@
 package com.rhxmanager.model;
 
 import jakarta.persistence.*;
+
+import java.util.Objects;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -37,7 +39,7 @@ public class Employe {
     @OneToMany(mappedBy = "employe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Payslip> payslips = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
             name = "Employe_Project",
             joinColumns = @JoinColumn(name = "employe_id"),
@@ -143,5 +145,20 @@ public class Employe {
                 ", projects=" + projects +
                 ", roles=" + roles +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employe employe = (Employe) o;
+        // Un ID non nul et égal garantit que les deux objets représentent la même ligne en BDD.
+        return id_employe != 0 && id_employe == employe.id_employe;
+    }
+
+    @Override
+    public int hashCode() {
+        // Le hashCode doit être cohérent avec equals.
+        return Objects.hash(id_employe);
     }
 }

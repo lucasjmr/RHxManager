@@ -1,6 +1,8 @@
 package com.rhxmanager.model;
 
 import jakarta.persistence.*;
+
+import java.util.Objects;
 import java.util.Set;
 import java.util.HashSet;
 import com.rhxmanager.model.ProjectState;
@@ -25,11 +27,10 @@ public class Project {
     @JoinColumn(name = "masterChief_id", referencedColumnName = "id_employe")
     private Employe projectLead;
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany(mappedBy = "projects", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Set<Employe> employees = new HashSet<>();
 
     // ------------------------------------------
-
 
     public Project() {
     }
@@ -60,6 +61,14 @@ public class Project {
     public void setEmployees(Set<Employe> employees) {
         this.employees = employees;
     }
+    public void addEmployee(Employe employee) {
+        this.employees.add(employee);       // Ajoute l'employé à la liste du projet
+        employee.getProjects().add(this);    // ET ajoute ce projet à la liste de l'employé
+    }
+    public void removeEmployee(Employe employee) {
+        this.employees.remove(employee);     // Retire l'employé de la liste du projet
+        employee.getProjects().remove(this);  // ET retire ce projet de la liste de l'employé
+    }
 
     @Override
     public String toString() {
@@ -70,5 +79,18 @@ public class Project {
                 ", projectLead=" + projectLead +
                 ", employees=" + employees +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Project project = (Project) o;
+        return id_project != 0 && id_project == project.id_project;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_project);
     }
 }

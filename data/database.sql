@@ -25,7 +25,7 @@ CREATE TABLE Department (
 CREATE TABLE Project (
     id_project INT AUTO_INCREMENT,
     projectName VARCHAR(127) NOT NULL,
-    state ENUM('WORKED ON', 'FAILURE', 'SUCCESS') NOT NULL,
+    state ENUM('WORKED_ON', 'FINISHED', 'CANCELED') NOT NULL,
     masterChief_id INT,
     PRIMARY KEY (id_project)
 ) ENGINE=InnoDB;
@@ -83,3 +83,12 @@ CREATE TABLE Employe_Role (
 
 -- username : "aze" | pwd : "aze" --
 INSERT INTO Employe (lastName, firstName, grade, jobName, salary, username, password, department_id) VALUES ('lastName', 'firstName', 'N/A', 'Test Account', 1000.00, 'aze', 'sTLME1aUWZBbIxEMXgiexA==:PDn+ogaCEHASt85SRpvkOlSq6QM2dU49eP4dQaqcgww=', NULL);
+
+INSERT INTO Role (roleName) VALUES ('ADMIN');
+INSERT INTO Role (roleName) VALUES ('EMPLOYE');
+INSERT INTO Employe_Role (employe_id, role_id)
+SELECT
+    (SELECT id_employe FROM Employe WHERE username = 'aze' LIMIT 1),
+    (SELECT id_role FROM Role WHERE roleName = 'ADMIN' LIMIT 1);
+
+
