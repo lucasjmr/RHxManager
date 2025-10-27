@@ -37,7 +37,7 @@ public class SecurityFilter implements Filter {
             return;
         }
 
-        if (path.startsWith("/employees") || path.startsWith("/departments") || path.startsWith("/projects")  /* todo : other admin pages */ ) {
+        if (path.startsWith("/employees") || path.startsWith("/departments") || path.startsWith("/projects") || path.startsWith("/payslips")) {
             boolean isAdmin = user.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getRoleName()));
 
             if (isAdmin) {
