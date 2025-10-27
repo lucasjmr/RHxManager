@@ -1,6 +1,7 @@
 package com.rhxmanager.dao;
 
 import  com.rhxmanager.model.Employe;
+import com.rhxmanager.model.Role;
 import com.rhxmanager.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -64,6 +65,9 @@ public class EmployeDao extends GenericDao<Employe, Integer> {
                 predicates.add(cb.equal(employe.get("id_employe"), Integer.parseInt(keyword)));
             }
 
+            Join<Employe, Role> roleJoin = employe.join("roles", JoinType.LEFT);
+            predicates.add(cb.like(cb.lower(roleJoin.get("roleName")), likePattern));
+
             cq.where(cb.or(predicates.toArray(new Predicate[0])));
 
             return em.createQuery(cq).getResultList();
@@ -104,6 +108,17 @@ public class EmployeDao extends GenericDao<Employe, Integer> {
             return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Employe> findAllWithRoles() {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return em.createQuery(
+                    "SELECT DISTINCT e FROM Employe e LEFT JOIN FETCH e.roles", Employe.class
+            ).getResultList();
         } finally {
             em.close();
         }

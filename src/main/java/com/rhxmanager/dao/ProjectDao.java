@@ -32,7 +32,7 @@ public class ProjectDao extends GenericDao<Project, Integer> {
     public List<Project> findAllWithEmployees() {
         EntityManager em = JpaUtil.getEntityManager();
         try {
-            return em.createQuery("SELECT DISTINCT p FROM Project p LEFT JOIN FETCH p.employees", Project.class)
+            return em.createQuery("SELECT DISTINCT p FROM Project p LEFT JOIN FETCH p.employees LEFT JOIN FETCH p.projectLead", Project.class)
                     .getResultList();
         } finally {
             em.close();
@@ -43,7 +43,7 @@ public class ProjectDao extends GenericDao<Project, Integer> {
         EntityManager em = JpaUtil.getEntityManager();
         try {
             TypedQuery<Project> query = em.createQuery(
-                    "SELECT p FROM Project p LEFT JOIN FETCH p.employees WHERE p.id_project = :projectId",
+                    "SELECT p FROM Project p LEFT JOIN FETCH p.employees LEFT JOIN FETCH p.projectLead WHERE p.id_project = :projectId",
                     Project.class
             );
             query.setParameter("projectId", id);

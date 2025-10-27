@@ -31,6 +31,7 @@
                 <th>ID</th>
                 <th>Project Name</th>
                 <th>State</th>
+                <th>Project Lead</th>
                 <th>Assigned Employees</th>
                 <th>Actions</th>
             </tr>
@@ -41,6 +42,12 @@
                     <td>${project.id_project}</td>
                     <td><c:out value="${project.projectName}"/></td>
                     <td>${project.state}</td>
+                    <td>
+                        <c:if test="${not empty project.projectLead}">
+                            <c:out value="${project.projectLead.firstName} ${project.projectLead.lastName}"/>
+                        </c:if>
+                        <c:if test="${empty project.projectLead}">N/A</c:if>
+                    </td>
                     <td>${project.employees.size()}</td>
                     <td>
                         <a href="projects?action=edit&id=${project.id_project}">Edit / Assign</a>

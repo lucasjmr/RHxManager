@@ -80,6 +80,7 @@
                 <th>Full Name</th>
                 <th>Username</th>
                 <th>Job Title</th>
+                <th>Roles</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -90,6 +91,11 @@
                     <td><c:out value="${employee.firstName} ${employee.lastName}"/></td>
                     <td><c:out value="${employee.username}"/></td>
                     <td><c:out value="${employee.jobName}"/></td>
+                    <td>
+                        <c:forEach var="role" items="${employee.roles}" varStatus="loop">
+                            <c:out value="${role.roleName}"/><c:if test="${not loop.last}">, </c:if>
+                        </c:forEach>
+                    </td>
                     <td>
                         <a href="employees?action=edit&id=${employee.id_employe}">Edit</a>
 

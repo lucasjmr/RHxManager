@@ -20,13 +20,11 @@
 
                 <fieldset>
                     <legend>Personal Information</legend>
-                    First Name: <br /> <input type="text" name="firstName" value="<c:out value="
-                        ${employee.firstName}" />" required><br />
-                    Last Name: <br /> <input type="text" name="lastName" value="<c:out value=" ${employee.lastName}" />"
+                    First Name: <br /> <input type="text" name="firstName" value="<c:out value="${employee.firstName}" />" required><br />
+                    Last Name: <br /> <input type="text" name="lastName" value="<c:out value="${employee.lastName}" />"
                     required><br />
-                    Grade: <br /> <input type="text" name="grade" value="<c:out value=" ${employee.grade}" />"><br />
-                    Job Title: <br /> <input type="text" name="jobName" value="<c:out value="
-                        ${employee.jobName}" />"><br />
+                    Grade: <br /> <input type="text" name="grade" value="<c:out value="${employee.grade}" />"><br />
+                    Job Title: <br /> <input type="text" name="jobName" value="<c:out value="${employee.jobName}" />"><br />
                     Salary: <br /> <input type="number" name="salary" step="0.01" value="${employee.salary}"
                         required><br />
                 </fieldset>

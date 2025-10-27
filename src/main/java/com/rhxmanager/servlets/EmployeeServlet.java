@@ -70,7 +70,7 @@ public class EmployeeServlet extends HttpServlet {
 
     private void listEmployees(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("employees", employeDao.findAll());
+        request.setAttribute("employees", employeDao.findAllWithRoles());
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/employees.jsp");
         dispatcher.forward(request, response);
     }

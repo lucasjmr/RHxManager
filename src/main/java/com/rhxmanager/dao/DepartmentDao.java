@@ -33,7 +33,7 @@ public class DepartmentDao extends GenericDao<Department, Integer> {
     public List<Department> findAllWithEmployees() {
         EntityManager em = JpaUtil.getEntityManager();
         try {
-            return em.createQuery("SELECT DISTINCT d FROM Department d LEFT JOIN FETCH d.employees", Department.class)
+            return em.createQuery("SELECT DISTINCT d FROM Department d LEFT JOIN FETCH d.employees LEFT JOIN FETCH d.manager", Department.class)
                     .getResultList();
         } finally {
             em.close();
@@ -44,7 +44,7 @@ public class DepartmentDao extends GenericDao<Department, Integer> {
         EntityManager em = JpaUtil.getEntityManager();
         try {
             TypedQuery<Department> query = em.createQuery(
-                    "SELECT d FROM Department d LEFT JOIN FETCH d.employees WHERE d.id_department = :departmentId",
+                    "SELECT d FROM Department d LEFT JOIN FETCH d.employees LEFT JOIN FETCH d.manager WHERE d.id_department = :departmentId",
                     Department.class
             );
             query.setParameter("departmentId", id);

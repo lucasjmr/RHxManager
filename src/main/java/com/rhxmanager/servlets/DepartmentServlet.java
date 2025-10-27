@@ -47,6 +47,9 @@ public class DepartmentServlet extends HttpServlet {
             case "removeEmployee":
                 removeEmployee(request, response);
                 break;
+            case "assignChief":
+                assignChief(request, response);
+                break;
             default:
                 listDepartments(request, response);
                 break;
@@ -112,6 +115,27 @@ public class DepartmentServlet extends HttpServlet {
         employee.setDepartment(null);
         employeDao.update(employee);
 
+        response.sendRedirect(request.getContextPath() + "/departments?action=view&id=" + departmentId);
+    }
+
+    private void assignChief(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        int departmentId = Integer.parseInt(request.getParameter("departmentId"));
+        String chiefIdParam = request.getParameter("managerId");
+
+        Department department = departmentDao.findById(departmentId)
+                .orElseThrow(() -> new ServletException("Department not found"));
+
+        if (chiefIdParam != null && !chiefIdParam.isEmpty()) {
+            int chiefId = Integer.parseInt(chiefIdParam);
+            Employe manager = employeDao.findById(chiefId)
+                    .orElseThrow(() -> new ServletException("Manager employee not found"));
+            department.setManager(manager);
+        } else {
+            department.setManager(null);
+        }
+
+        departmentDao.update(department);
         response.sendRedirect(request.getContextPath() + "/departments?action=view&id=" + departmentId);
     }
 }

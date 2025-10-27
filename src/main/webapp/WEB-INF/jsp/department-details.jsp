@@ -10,6 +10,34 @@
     <hr/>
     <h1>Details for: <c:out value="${department.departmentName}"/></h1>
 
+    <p>
+        <b>Current Manager:</b>
+        <c:if test="${not empty department.manager}">
+            <c:out value="${department.manager.firstName} ${department.manager.lastName}"/>
+        </c:if>
+        <c:if test="${empty department.manager}">N/A</c:if>
+    </p>
+    <hr/>
+
+    <fieldset>
+        <legend>Assign/Change Manager</legend>
+        <form action="departments" method="post">
+            <input type="hidden" name="action" value="assignChief">
+            <input type="hidden" name="departmentId" value="${department.id_department}">
+            <select name="managerId">
+                <option value="">-- No Manager --</option>
+                <c:forEach var="emp" items="${availableEmployees}"> <%-- Note: on peut réutiliser cette liste ou passer allEmployees --%>
+                    <option value="${emp.id_employe}"
+                        <c:if test="${not empty department.manager && department.manager.id_employe == emp.id_employe}">selected</c:if>>
+                        <c:out value="${emp.firstName} ${emp.lastName}"/>
+                    </option>
+                </c:forEach>
+            </select>
+            <button type="submit">Set as Manager</button>
+        </form>
+    </fieldset>
+    <br/>
+
     <fieldset>
         <legend>Assign an Employee</legend>
         <form action="departments" method="post">

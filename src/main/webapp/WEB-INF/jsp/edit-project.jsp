@@ -31,6 +31,21 @@
                     </select>
                 </fieldset>
                 <br />
+
+                <fieldset>
+                    <legend>Project Lead</legend>
+                    <select name="projectLeadId">
+                        <option value="">-- No Lead Assigned --</option>
+                        <c:forEach var="emp" items="${allEmployees}">
+                            <option value="${emp.id_employe}"
+                                <c:if test="${not empty project.projectLead && project.projectLead.id_employe == emp.id_employe}">selected</c:if>>
+                                <c:out value="${emp.firstName} ${emp.lastName}"/>
+                            </option>
+                        </c:forEach>
+                    </select>
+                </fieldset>
+                <br/>
+
                 <fieldset>
                     <legend>Assign Employees</legend>
                     <div style="height: 150px; overflow-y: scroll; border: 1px solid #ccc; padding: 5px;">

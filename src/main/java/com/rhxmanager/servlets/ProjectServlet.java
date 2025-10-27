@@ -93,6 +93,16 @@ public class ProjectServlet extends HttpServlet {
         project.setProjectName(request.getParameter("projectName"));
         project.setState(ProjectState.valueOf(request.getParameter("state")));
 
+        String chiefIdParam = request.getParameter("projectLeadId");
+        if (chiefIdParam != null && !chiefIdParam.isEmpty()) {
+            int chiefId = Integer.parseInt(chiefIdParam);
+            Employe projectLead = employeDao.findById(chiefId)
+                    .orElseThrow(() -> new ServletException("Project lead not found"));
+            project.setProjectLead(projectLead);
+        } else {
+            project.setProjectLead(null);
+        }
+
         String[] employeeIdsFromForm = request.getParameterValues("employees");
         Set<Integer> newEmployeeIds = new HashSet<>();
         if (employeeIdsFromForm != null) {
