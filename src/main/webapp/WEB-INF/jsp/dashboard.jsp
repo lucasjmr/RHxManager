@@ -4,42 +4,190 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <style>
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            color: #333;
+        }
+
+
+        header {
+            background: linear-gradient(90deg, #0078ff 0%, #005fcc 100%);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .header-left p {
+            margin: 0.2rem 0 0 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: red;
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #b81414;
+        }
+
+        /* ----------- MAIN CONTAINER ----------- */
+        main {
+            max-width: 1000px;
+            margin: 2.5rem auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 3rem;
+        }
+
+        h2 {
+            color: #0078ff;
+            border-bottom: 2px solid #e0e6ed;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ----------- OVERVIEW SECTION ----------- */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: #f9fbff;
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 10px rgba(0, 120, 255, 0.15);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .card p {
+            margin: 0.4rem 0 0 0;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #0078ff;
+        }
+
+
+        nav ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 0;
+            list-style: none;
+        }
+
+        nav a {
+            display: block;
+            background: #0078ff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            padding: 0.9rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background: #005fcc;
+            transform: translateY(-2px);
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
 
-    <table width="100%" style="border-collapse: collapse;">
-        <tr>
-            <td style="vertical-align: top;">
-                <h1>Dashboard</h1>
-                <p>Welcome, <b>${user.firstName} ${user.lastName}</b>!</p>
-            </td>
-            <td style="text-align: right; vertical-align: top;">
-                <a href="logout">Logout</a>
-            </td>
-        </tr>
-    </table>
+<header>
+    <div class="header-left">
+        <h1> Dashboard</h1>
+        <p>Welcome, <b>${user.firstName} ${user.lastName}</b></p>
+    </div>
+    <a href="logout" class="logout-btn">Logout</a>
+</header>
 
-    <hr/>
+<main>
+    <section>
+        <h2>Overview</h2>
+        <div class="overview-grid">
+            <div class="card">
+                <h3>Total Employees</h3>
+                <p>${totalEmployees}</p>
+            </div>
+            <div class="card">
+                <h3>Total Departments</h3>
+                <p>${totalDepartments}</p>
+            </div>
+            <div class="card">
+                <h3>Total Projects</h3>
+                <p>${totalProjects}</p>
+            </div>
+            <div class="card">
+                <h3>Active Projects</h3>
+                <p>${activeProjects}</p>
+            </div>
+        </div>
+    </section>
 
-    <h2>Overview</h2>
-    <ul>
-        <li>Total Employees: <b>${totalEmployees}</b></li>
-        <li>Total Departments: <b>${totalDepartments}</b></li>
-        <li>Total Projects: <b>${totalProjects}</b></li>
-        <li>Active Projects: <b>${activeProjects}</b></li>
-    </ul>
+    <section>
+        <h2>Navigation</h2>
+        <nav>
+            <ul>
+                <li><a href="employees">Manage Employees</a></li>
+                <li><a href="payslips">Manage Payslips</a></li>
+                <li><a href="departments">Manage Departments</a></li>
+                <li><a href="projects">Manage Projects</a></li>
+            </ul>
+        </nav>
+    </section>
+</main>
 
-    <hr/>
-
-    <h2>Navigation Menu</h2>
-    <nav>
-        <ul>
-            <li><a href="employees">Manage Employees</a></li>
-            <li><a href="payslips">Manage Payslips</a></li>
-            <li><a href="departments">Manage Departments</a></li>
-            <li><a href="projects">Manage Projects</a></li>
-        </ul>
-    </nav>
+<footer>
+    © 2025 RHxManager — All rights reserved
+</footer>
 
 </body>
 </html>
