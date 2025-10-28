@@ -123,4 +123,16 @@ public class EmployeDao extends GenericDao<Employe, Integer> {
             em.close();
         }
     }
+
+    public List<Employe> findAllWithDepartment() {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            // On utilise LEFT JOIN FETCH pour s'assurer de récupérer les employés
+            // même s'ils n'ont pas encore de département.
+            return em.createQuery("SELECT e FROM Employe e LEFT JOIN FETCH e.department", Employe.class)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

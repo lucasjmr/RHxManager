@@ -1,5 +1,6 @@
 package com.rhxmanager.dao;
 
+import com.rhxmanager.model.Employe;
 import com.rhxmanager.model.Project;
 import com.rhxmanager.model.ProjectState;
 import com.rhxmanager.util.JpaUtil;
@@ -50,6 +51,19 @@ public class ProjectDao extends GenericDao<Project, Integer> {
             return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Project> findProjectsLedBy(Employe lead) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            TypedQuery<Project> query = em.createQuery(
+                    "SELECT p FROM Project p WHERE p.projectLead = :lead", Project.class
+            );
+            query.setParameter("lead", lead);
+            return query.getResultList();
         } finally {
             em.close();
         }

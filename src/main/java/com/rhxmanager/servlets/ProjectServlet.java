@@ -69,8 +69,8 @@ public class ProjectServlet extends HttpServlet {
                 .orElseThrow(() -> new ServletException("Project not found"));
 
         request.setAttribute("project", project);
-        request.setAttribute("allEmployees", employeDao.findAll()); // Pour la liste d'affectation
-        request.setAttribute("allStates", ProjectState.values()); // Fournir tous les états possibles à la JSP
+        request.setAttribute("allEmployees", employeDao.findAll());
+        request.setAttribute("allStates", ProjectState.values());
 
         request.getRequestDispatcher("/WEB-INF/jsp/edit-project.jsp").forward(request, response);
     }
@@ -140,8 +140,17 @@ public class ProjectServlet extends HttpServlet {
     private void deleteProject(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
-        com.rhxmanager.model.Project project = projectDao.findById(id).orElseThrow(() -> new ServletException("Project not found"));
+
+        Project project = projectDao.findByIdWithEmployees(id)
+                .orElseThrow(() -> new ServletException("Project not found"));
+
+        for (Employe employee : new HashSet<>(project.getEmployees())) {
+            project.removeEmployee(employee);
+            employeDao.update(employee);
+        }
+
         projectDao.delete(project);
+
         response.sendRedirect(request.getContextPath() + "/projects");
     }
 }

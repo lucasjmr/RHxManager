@@ -1,8 +1,10 @@
 package com.rhxmanager.servlets;
 
+import com.rhxmanager.dao.DepartmentDao;
 import com.rhxmanager.dao.EmployeDao;
 import com.rhxmanager.dao.ProjectDao;
 import com.rhxmanager.dao.RoleDao;
+import com.rhxmanager.model.Department;
 import com.rhxmanager.model.Employe;
 import com.rhxmanager.model.Project;
 import com.rhxmanager.model.Role;
@@ -172,8 +174,36 @@ public class EmployeeServlet extends HttpServlet {
     private void deleteEmployee(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Employe employee = employeDao.findById(id).orElseThrow(() -> new ServletException("Employee not found"));
-        employeDao.delete(employee);
-        response.sendRedirect(request.getContextPath() + "/employees?success=delete");
+
+        Employe employeeToDelete = employeDao.findById(id)
+                .orElseThrow(() -> new ServletException("Employee not found"));
+
+        ProjectDao projectDao = new ProjectDao();
+        DepartmentDao departmentDao = new DepartmentDao();
+
+        List<Project> ledProjects = projectDao.findProjectsLedBy(employeeToDelete);
+        for (Project project : ledProjects) {
+            project.setProjectLead(null);
+            projectDao.update(project);
+        }
+
+        List<Department> managedDepartments = departmentDao.findDepartmentsManagedBy(employeeToDelete);
+        for (Department department : managedDepartments) {
+            department.setManager(null);
+            departmentDao.update(department);
+        }
+
+        Employe loggedInUser = (Employe) request.getSession().getAttribute("user");
+        if (loggedInUser != null && loggedInUser.getId_employe() == id) {
+            request.getSession().invalidate();
+        }
+
+        employeDao.delete(employeeToDelete);
+
+        if (loggedInUser != null && loggedInUser.getId_employe() == id) {
+            response.sendRedirect(request.getContextPath() + "/auth");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/employees?success=delete");
+        }
     }
 }

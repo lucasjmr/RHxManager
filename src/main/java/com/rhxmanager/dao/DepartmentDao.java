@@ -1,6 +1,7 @@
 package com.rhxmanager.dao;
 
 import com.rhxmanager.model.Department;
+import com.rhxmanager.model.Employe;
 import com.rhxmanager.util.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -51,6 +52,19 @@ public class DepartmentDao extends GenericDao<Department, Integer> {
             return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Department> findDepartmentsManagedBy(Employe manager) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            TypedQuery<Department> query = em.createQuery(
+                    "SELECT d FROM Department d WHERE d.manager = :manager", Department.class
+            );
+            query.setParameter("manager", manager);
+            return query.getResultList();
         } finally {
             em.close();
         }

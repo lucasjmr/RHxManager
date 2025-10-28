@@ -68,7 +68,7 @@ public class DepartmentServlet extends HttpServlet {
                 .orElseThrow(() -> new ServletException("Department not found"));
 
         request.setAttribute("department", department);
-        request.setAttribute("allEmployees", employeDao.findAll());
+        request.setAttribute("allEmployees", employeDao.findAllWithDepartment());
 
         request.getRequestDispatcher("/WEB-INF/jsp/edit-department.jsp").forward(request, response);
     }
