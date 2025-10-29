@@ -177,9 +177,9 @@
         <nav>
             <ul>
                 <li><a href="employees">Manage Employees</a></li>
-                <li><a href="payslips">Manage Payslips</a></li>
                 <li><a href="departments">Manage Departments</a></li>
                 <li><a href="projects">Manage Projects</a></li>
+                <li><a href="payslips">Manage Payslips</a></li>
             </ul>
         </nav>
     </section>
