@@ -61,7 +61,7 @@ Cela générera le fichier **RHxManager.war** dans le dossier `target/`.
 2.  Collez-le dans le dossier `webapps` de votre installation Tomcat.
 3.  Démarrez Tomcat (`bin/startup.sh` ou `bin/startup.bat`).
 
-## 🖥️ Utilisation
+## Utilisation
 
 Une fois le serveur démarré, accédez à l'application via :
 
