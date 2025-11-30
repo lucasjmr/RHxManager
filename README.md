@@ -2,7 +2,7 @@
 
 **RHxManager** est une application web de gestion des ressources humaines (GRH) développée en Java (Jakarta EE). Elle permet aux administrateurs de gérer les employés, les départements, les projets et les fiches de paie au sein d'une organisation.
 
-## 👥 Auteurs
+## Auteurs
 
 * Lucas J.
 * Pierre G.
