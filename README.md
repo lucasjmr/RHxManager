@@ -6,6 +6,7 @@
 * Pierre G.
 * Maxime D.
 * Armand P.
+* Gabriel B.
 
 
 ## Infos Technique
