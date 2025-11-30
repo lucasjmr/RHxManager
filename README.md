@@ -10,16 +10,7 @@
 * Armand P.
 * Gabriel B.
 
-## 🚀 Fonctionnalités
-
-* **Authentification sécurisée** : Connexion par session avec hachage des mots de passe (PBKDF2).
-* **Gestion des Employés** : Ajout, modification, suppression, recherche et attribution de rôles (ADMIN/EMPLOYE).
-* **Gestion des Départements** : Création de départements et assignation de managers.
-* **Gestion de Projets** : Suivi des projets par état (En cours, Terminé, Annulé) et constitution des équipes.
-* **Fiches de Paie** : Génération de bulletins de salaire avec calcul automatique (Bonus, Déductions, Net à payer).
-* **Tableau de Bord** : Vue synthétique des statistiques de l'entreprise.
-
-## 🛠 Stack Technique
+## InfosTechnique
 
 * **Langage** : Java (JDK 17+)
 * **Framework Web** : Jakarta EE 10 (Servlets, JSP, JSTL)
@@ -28,7 +19,7 @@
 * **Build Tool** : Maven
 * **Serveur d'application** : Apache Tomcat 10.1+ (Support Jakarta EE requis)
 
-## ⚙️ Prérequis
+## Prérequis
 
 Assurez-vous d'avoir installé :
 1.  **Java JDK 17** ou supérieur.
@@ -36,7 +27,7 @@ Assurez-vous d'avoir installé :
 3.  **MySQL Server**.
 4.  **Apache Tomcat 10** (ou tout autre serveur compatible Jakarta EE 10).
 
-## 📦 Installation et Configuration
+## Installation et Configuration
 
 ### 1. Base de données
 1.  Connectez-vous à votre instance MySQL.
